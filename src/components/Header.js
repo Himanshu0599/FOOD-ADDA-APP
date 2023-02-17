@@ -33,8 +33,8 @@ const Header = () => {
           <Link to="/contact">
             <li className="px-2">Contact</li>
           </Link>
-          <Link to="/instamart">
-            <li className="px-2">Instamart</li>
+          <Link to="/foodmart">
+            <li className="px-2">FoodMart</li>
           </Link>
          <Link to="/cart">
             {/* <li className="px-2" data-testid="cart">
