@@ -1,35 +1,50 @@
-import { useEffect,useState } from "react";
+import { useEffect, useState } from "react";
 import RestaurantCard from "./ResturantCard";
 import { Link } from "react-router-dom";
 import Shimmer from "./Shimmer";
 import { filterData } from "../utils/helper";
-
+import { restaurantListCardsData } from "../constantData";
 
 const Body = () => {
   const [allRestaurants, setAllRestaurants] = useState([]);
   const [filteredRestaurants, setFilteredRestaurants] = useState([]);
   const [searchText, setSearchText] = useState("");
 
-useEffect(() => {
-    getRestaurants();
+
+  useEffect(() => {
+    // if CORS is enable in browser then setTimeout will run and fetch the json data from API and render the UI
+    setTimeout(() => {
+      getRestaurants();
+    }, 200);
+
+    setTimeout(() => {
+      // if CORS is not enable in browser then show the local data only and show the CORS error in console
+      setAllRestaurants(restaurantListCardsData);
+      setFilteredRestaurants(restaurantListCardsData);
+    }, 200);
   }, []);
 
   async function getRestaurants() {
-     const data = await fetch(
-       'https://www.swiggy.com/dapi/restaurants/list/v5?lat=12.9351929&lng=77.62448069999999&page_type=DESKTOP_WEB_LISTING');
-      const json = await data.json();
-      console.log("json json",json);
-      setAllRestaurants(json?.data?.cards[2]?.data?.data?.cards);
-      setFilteredRestaurants(json?.data?.cards[2]?.data?.data?.cards);
+   try {
+    const data = await fetch(
+      'https://www.swiggy.com/dapi/restaurants/list/v5?lat=12.9351929&lng=77.62448069999999&page_type=DESKTOP_WEB_LISTING');
+    const json = await data.json();
+    console.log("json json", json);
+    setAllRestaurants(json?.data?.cards[2]?.data?.data?.cards);
+    setFilteredRestaurants(json?.data?.cards[2]?.data?.data?.cards);    
+   } catch (error) {
+    console.log(error)
+   }
+
   }
 
- const handleChange=(e)=>setSearchText(e.target.value)
+  const handleChange = (e) => setSearchText(e.target.value)
 
- const handleClick=()=>{
-  setFilteredRestaurants(allRestaurants.filter(restaurant => {
-    return restaurant.data.name.toLowerCase().includes(searchText);
-}))
- }
+  const handleClick = () => {
+    setFilteredRestaurants(allRestaurants.filter(restaurant => {
+      return restaurant.data.name.toLowerCase().includes(searchText);
+    }))
+  }
 
   if (!allRestaurants) return null;
 
@@ -62,16 +77,16 @@ useEffect(() => {
           >
             Search
           </button>
-         </div>
-    </div>
+        </div>
+      </div>
       <div className="flex flex-wrap space-x-10 m-8">
         {filteredRestaurants.map((restaurant) => {
-          console.log("restaurant restaurant",restaurant);
+          console.log("restaurant restaurant", restaurant);
           return (
             <Link
               to={`restaurant/${restaurant.data.id}`}
               key={restaurant.data.id}
-              className="m-8 rounded-lg p-1" 
+              className="m-8 rounded-lg p-1"
             >
               <RestaurantCard {...restaurant.data} />
             </Link>
@@ -80,5 +95,5 @@ useEffect(() => {
       </div>
     </>
   );
-  };
+};
 export default Body
