@@ -1,7 +1,6 @@
 
 import React from "react";
 import logo from '../assets/img/logo.png'
-import '../styles/header.css'
 import { Link } from "react-router-dom";
 
 const Title = () => (
@@ -37,11 +36,11 @@ const Header = () => {
           <Link to="/instamart">
             <li className="px-2">Instamart</li>
           </Link>
-          {/* <Link to="/cart">
+         <Link to="/cart">
             <li className="px-2" data-testid="cart">
               Cart- {cartItems.length} items
             </li>
-          </Link> */}
+          </Link> 
         </ul>
       </div>
       {/* <h1 data-testid="online-status">{isOnline ? "✅" : "🔴"}</h1>

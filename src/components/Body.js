@@ -3,7 +3,7 @@ import RestaurantCard from "./ResturantCard";
 import { Link } from "react-router-dom";
 import Shimmer from "./Shimmer";
 import { filterData } from "../utils/helper";
-import '../styles/body.css'
+
 
 const Body = () => {
   const [allRestaurants, setAllRestaurants] = useState([]);

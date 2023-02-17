@@ -7,9 +7,6 @@ import Shimmer from "./Shimmer";
 
 const RestaurantMenu = () => {
   const { restaurantMenu, filteredMenu, setFilteredMenu } = useRestaurantMenu();
-  // let description=filteredMenu.map((item)=>{
-  console.log("restaurantMenu restaurantMenu", restaurantMenu);
-  console.log("filteredMenu",filteredMenu);
   const [searchText, setSearchText] = useState("");
   return !restaurantMenu ? (
     <Shimmer />
