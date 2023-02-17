@@ -2,6 +2,7 @@ import React from 'react';
 import { IMG_CDN_URL } from '../constant'
 
 const RestaurantCard = ({ cloudinaryImageId, area, name, city, locality, cuisines, avgRating, lastMileTravelString, costForTwoString }) => {
+ console.log("locality",locality);
   return (
     <>
       <div className="max-w-sm rounded overflow-hidden shadow-lg">
@@ -13,7 +14,7 @@ const RestaurantCard = ({ cloudinaryImageId, area, name, city, locality, cuisine
           </p>
         </div>
         <div className="px-6 pt-4 pb-1">
-          <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">{locality}</span>
+          <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">{locality.length> 18 ? `${locality.slice(18,locality.length)}`:locality}</span>
           <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">{area}</span>
           <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">{city}</span>
         </div>
