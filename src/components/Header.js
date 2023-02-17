@@ -37,9 +37,9 @@ const Header = () => {
             <li className="px-2">Instamart</li>
           </Link>
          <Link to="/cart">
-            <li className="px-2" data-testid="cart">
+            {/* <li className="px-2" data-testid="cart">
               Cart- {cartItems.length} items
-            </li>
+            </li> */}
           </Link> 
         </ul>
       </div>

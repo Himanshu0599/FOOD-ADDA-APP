@@ -3,23 +3,23 @@
     "version": "1.0.0",
     "description": "react-food-app",
     "scripts": {
-      "start": "parcel index.html",
-      "test": "echo \"Error: no test specified\" && exit 1"
+        "start": "parcel index.html",
+        "test": "echo \"Error: no test specified\" && exit 1"
     },
     "author": "Himanshu gupta",
     "license": "ISC",
     "devDependencies": {
-      "parcel": "^2.8.3",
-      "postcss": "^8.4.21",
-      "process": "^0.11.10",
-      "tailwindcss": "^3.2.6"
+        "@babel/core": "^7.20.12",
+        "parcel": "^2.8.3",
+        "postcss": "^8.4.21",
+        "process": "^0.11.10",
+        "tailwindcss": "^3.2.6"
     },
     "dependencies": {
-      "react": "^18.2.0",
-      "react-dom": "^18.2.0",
-      "react-router-dom": "^6.7.0",
-      "@reduxjs/toolkit": "^1.9.2",
-      "react-redux": "^8.0.5"
+        "@reduxjs/toolkit": "^1.9.2",
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0",
+        "react-redux": "^8.0.5",
+        "react-router-dom": "^6.7.0"
     }
-  }
-  
+}
