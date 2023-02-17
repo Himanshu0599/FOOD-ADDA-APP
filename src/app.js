@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import Header from "./components/Header";
 import Body from "./components/Body";
 import Footer from "./components/Footer";
-import Contact from "./components/Contact";
+import Help from "./components/Help";
 import Cart from "./components/Cart";
 import Error from "./components/Error";
 import RestaurantMenu from "./components/ResturantMenu";
@@ -39,7 +39,7 @@ const appRouter = createBrowserRouter([
     children: [
       { path: "/", element: <Body /> },
       { path: "/about", element:<Suspense fallback={<h1>Loading....</h1>}><About /></Suspense> },
-      { path: "/contact", element: <Contact /> },
+      { path: "/Help", element:<Suspense fallback={<h1>Loading....</h1>}><Help /></Suspense> },
       { path: "/restaurant/:resId", element: <RestaurantMenu /> },
       { path: "/cart", element: <Cart /> },
     ],

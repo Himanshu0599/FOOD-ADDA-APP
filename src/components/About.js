@@ -46,7 +46,7 @@ export default class About extends Component {
           </p>
         </div>
         <h1 className="text-2xl font-bold py-2 my-4 mx-20 mt-10 ">Developed By</h1>
-        <div className="flex items-center">
+        <div className="flex items-center font-serif">
           <div className="h-200 mx-20 mt-10 mb-10 lg:h-auto lg:w-48 content-center  flex-none bg-cover rounded-t lg:rounded-t-none lg:rounded-l text-center overflow-hidden">
             <img src={this.state.userData.avatar_url} alt="user image" />
           </div>

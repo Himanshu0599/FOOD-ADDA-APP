@@ -2,7 +2,6 @@ import React from 'react';
 import { IMG_CDN_URL } from '../constant'
 
 const RestaurantCard = ({ cloudinaryImageId, area, name, city, locality, cuisines, avgRating, lastMileTravelString, costForTwoString }) => {
- console.log("locality",locality);
   return (
     <>
       <div className="max-w-sm rounded overflow-hidden shadow-lg">

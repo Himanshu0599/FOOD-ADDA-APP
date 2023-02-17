@@ -76,7 +76,7 @@ const Footer = () => {
       </div>
 
       <div className="text-center p-4 container px-6 pt-6">
-        © 2021 Copyright:
+        © 2023 Copyright:
         <a className="text-whitehite" href="https://tailwind-elements.com/">Food Adda</a>
       </div>
     </footer>

@@ -22,7 +22,7 @@ const Header = () => {
     <div className="right flex justify-between bg-white shadow-lg sm:bg-black-50 md:bg-black-50 sm:bg-black-50">
        <Title />
       <div className="nav-items">
-        <ul className="flex py-10 text-gray-900">
+        <ul className="flex py-10 text-black font-bold font-serif mx-5 ml-10">
           <li className="px-2 ">
             <Link to="/">Home</Link>
           </li>
@@ -30,16 +30,14 @@ const Header = () => {
           <Link to="/about">
             <li className="px-2">About</li>
           </Link>
-          <Link to="/contact">
-            <li className="px-2">Contact</li>
-          </Link>
-          <Link to="/foodmart">
-            <li className="px-2">FoodMart</li>
+          <Link to="/help">
+            <li className="px-2">Help</li>
           </Link>
          <Link to="/cart">
-            {/* <li className="px-2" data-testid="cart">
-              Cart- {cartItems.length} items
-            </li> */}
+             <li className="px-2" data-testid="cart">
+              Cart-items
+              {/* {cartItems.length} */}
+            </li> 
           </Link> 
         </ul>
       </div>
