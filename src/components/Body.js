@@ -3,7 +3,6 @@ import RestaurantCard from "./ResturantCard";
 import { Link } from "react-router-dom";
 import Shimmer from "./Shimmer";
 import { filterData } from "../utils/helper";
-import { restaurantListCardsData } from "../constantData";
 
 const Body = () => {
   const [allRestaurants, setAllRestaurants] = useState([]);
@@ -12,15 +11,8 @@ const Body = () => {
   const [error,setError] =useState("")
 
   useEffect(() => {
-    // if CORS is enable in browser then setTimeout will run and fetch the json data from API and render the UI
     setTimeout(() => {
       getRestaurants();
-    }, 200);
-
-    setTimeout(() => {
-      // if CORS is not enable in browser then show the local data only and show the CORS error in console
-      setAllRestaurants(restaurantListCardsData);
-      setFilteredRestaurants(restaurantListCardsData);
     }, 200);
   }, []);
 

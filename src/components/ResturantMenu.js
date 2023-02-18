@@ -1,40 +1,11 @@
 import { useEffect, useState } from "react";
 import { IMG_CDN_URL } from "../constant";
-import { useParams } from "react-router-dom";
 import { MENU_DETAILS } from "../constant";
-import { restaurantMenuCardsData } from "../constantData";
+import useRestaurantMenu from '../utils/useRestaurantMenu'
 import Shimmer from "./Shimmer";
 
 const RestaurantMenu = () => {
-  // const { restaurantMenu, filteredMenu, setFilteredMenu } = useRestaurantMenu();
-  // console.log("restaurantMenu",restaurantMenu);
-  const { resId } = useParams();
-  const [restaurantMenu, setRestaurauntMenu] = useState(null);
-
-  useEffect(() => {
-    setTimeout(() => {
-      getRestaurantMenuInfo(); // call getRestaurantInfo function so it fetch api data and set data in res state variable
-    }, 0);
-    // if CORS is not enable in browser then show the local data only and show the CORS error in console
-    // used array.findIndex and filter the data according to resId and return index of that data
-    let index = restaurantMenuCardsData.findIndex(data => data?.id === String(resId)); 
-    setRestaurauntMenu(restaurantMenuCardsData[index])
-    // Scroll to the top of the page automatically
-    window.scrollTo(0, 0);
-  }, []);
-
-  async function getRestaurantMenuInfo() {
-    try {
-      const data = await fetch(`${MENU_DETAILS}&menuId=${resId}`);
-      const json = await data.json();
-      setRestaurauntMenu(json.data);
-    }
-    catch (error) {
-      console.log(error);
-    }
-    return restaurantMenu
-  }
-
+   const { restaurantMenu} = useRestaurantMenu();
   return !restaurantMenu ? (
     <Shimmer />
   ) : (
