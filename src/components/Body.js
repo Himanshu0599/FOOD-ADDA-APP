@@ -3,7 +3,8 @@ import RestaurantCard from "./ResturantCard";
 import { Link } from "react-router-dom";
 import Shimmer from "./Shimmer";
 import { filterData } from "../utils/helper";
-
+import { restaurantListCardsData } from "../constantData";
+import {FETCH_MENU_URL} from '../constant'
 const Body = () => {
   const [allRestaurants, setAllRestaurants] = useState([]);
   const [filteredRestaurants, setFilteredRestaurants] = useState([]);
@@ -11,23 +12,29 @@ const Body = () => {
   const [error,setError] =useState("")
 
   useEffect(() => {
+    // if CORS is enable in browser then setTimeout will run and fetch the json data from API and render the UI
+     setTimeout(() => {
+       getRestaurants();
+     }, 200);
+
     setTimeout(() => {
-      getRestaurants();
+      // if CORS is not enable in browser then show the local data only and show the CORS error in console
+      setAllRestaurants(restaurantListCardsData);
+      setFilteredRestaurants(restaurantListCardsData);
     }, 200);
   }, []);
 
-  async function getRestaurants() {
-   try {
-    const data = await fetch(
-      'https://www.swiggy.com/dapi/restaurants/list/v5?lat=12.9351929&lng=77.62448069999999&page_type=DESKTOP_WEB_LISTING');
-    const json = await data.json();
-    setAllRestaurants(json?.data?.cards[2]?.data?.data?.cards);
-    setFilteredRestaurants(json?.data?.cards[2]?.data?.data?.cards);    
-   } catch (error) {
-    console.log(error)
-   }
+   async function getRestaurants() {
+    try {
+     const data = await fetch(FETCH_MENU_URL);
+     const json = await data.json();
+     setAllRestaurants(json?.data?.cards[2]?.data?.data?.cards);
+     setFilteredRestaurants(json?.data?.cards[2]?.data?.data?.cards);    
+    } catch (error) {
+     console.log(error)
+    }
 
-  }
+   }
 
   const handleChange = (e) => setSearchText(e.target.value)
 
