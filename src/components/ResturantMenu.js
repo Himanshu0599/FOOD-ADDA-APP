@@ -5,11 +5,26 @@ import { useParams } from "react-router-dom";
 import useRestaurantMenu from '../utils/useRestaurantMenu'
 import { restaurantMenuCardsData } from "../constantData";
 import Shimmer from "./Shimmer";
-
+import { addItem } from "../utils/cartSlice";
+import { useDispatch } from "react-redux";
+import SnackBarAlert from './SnackBarAleart'
 const RestaurantMenu = () => {
   // const { restaurantMenu} = useRestaurantMenu();
   const { resId } = useParams();
   const [restaurantMenu, setRestaurauntMenu] = useState(null);
+  const [showSnackbar, setShowSnackbar] = useState(false);
+
+  const dispatch = useDispatch();
+
+  const addFoodItem = (item) => {
+    setShowSnackbar(true);
+    setTimeout(() => {
+      setShowSnackbar(false);
+    }, 1000);
+
+    dispatch(addItem(item));
+
+  };
 
   useEffect(() => {
     setTimeout(() => {
@@ -17,10 +32,9 @@ const RestaurantMenu = () => {
     }, 0);
     // if CORS is not enable in browser then show the local data only and show the CORS error in console
     // used array.findIndex and filter the data according to resId and return index of that data
-    let index = restaurantMenuCardsData.findIndex(data => data?.id === String(resId)); 
+    let index = restaurantMenuCardsData.findIndex(data => data?.id === String(resId));
     setRestaurauntMenu(restaurantMenuCardsData[index])
-    // Scroll to the top of the page automatically
-    window.scrollTo(0, 0);
+
   }, []);
 
   async function getRestaurantMenuInfo() {
@@ -125,7 +139,7 @@ const RestaurantMenu = () => {
         {/* menu list */}
         <div className="lg:-ml-72">
           {Object.values(restaurantMenu?.menu?.items).map((item, index) => (
-            <div className="">
+            <div className="" key={item.id}>
               <div className="grid grid-flow-row grid-cols-2 justify-between gap-20 xl:gap-48">
                 <div className="flex flex-col gap-2">
                   <div className="w-4">
@@ -156,8 +170,14 @@ const RestaurantMenu = () => {
                         item.cloudinaryImageId
                     }
                   />
-                  <button className="text-[#1AC84B] w-24 -mt-5 font-medium bg-white px-6 py-2 border rounded-lg shadow-lg border-white z-10 mt-2">
-                    Add
+                  <button className="text-[#1AC84B] w-24 -mt-5 font-medium bg-white px-6 py-2 border rounded-lg shadow-lg border-white z-10 mt-2"
+                    onClick={() => addFoodItem(item)}
+                  >Add
+                   {showSnackbar&& <SnackBarAlert
+                      message={`Item is Added in the cart`}
+                      showSnackbar={showSnackbar}
+                      setShowSnackbar={setShowSnackbar}
+                    />}
                   </button>
                 </div>
               </div>

@@ -2,3 +2,5 @@ export const IMG_CDN_URL ="https://res.cloudinary.com/swiggy/image/upload/fl_los
 export const API_URL = `https://corsanywhere.herokuapp.com/https://www.swiggy.com/dapi`;
 export const FETCH_MENU_URL =`${API_URL}/restaurants/list/v5?lat=18.5318555&lng=73.8220565&page_type=DESKTOP_WEB_LISTING`;
 export const MENU_DETAILS = `${API_URL}/menu/v4/full?lat=23.024349&lng=72.5301521`;
+export const DELIVERY_CHARGES = 30;
+export const TAXES = 0.1;

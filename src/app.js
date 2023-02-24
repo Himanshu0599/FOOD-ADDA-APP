@@ -3,19 +3,23 @@ import ReactDOM from "react-dom/client";
 import Header from "./components/Header";
 import Body from "./components/Body";
 import Footer from "./components/Footer";
-import Help from "./components/Help";
-import Cart from "./components/Cart";
 import Error from "./components/Error";
-import RestaurantMenu from "./components/ResturantMenu";
 import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom'
 import UserContext from "./utils/userContext";
+import { Provider } from "react-redux";
+import store from './utils/store'
+import Shimmer from "./components/Shimmer";
 
 const About =lazy(()=>import("./components/About"))
- const AppLayout = () => {
+const Cart =lazy(()=>import("./components/Cart"))
+const Help=lazy(()=>import("./components/Help"))
+const RestaurantMenu=lazy(()=>import("./components/ResturantMenu"))
+const Login=lazy(()=>import("./components/Login"))
+const AppLayout = () => {
   const [user, setUser] = useState({});
   return (
 
-      <>
+    <Provider store={store}>
       <UserContext.Provider
        value={{
         user: user,
@@ -26,7 +30,7 @@ const About =lazy(()=>import("./components/About"))
          <Outlet />
          <Footer />
          </UserContext.Provider>
-       </>
+       </Provider>
    
    );
  };
@@ -38,10 +42,11 @@ const appRouter = createBrowserRouter([
      element: <AppLayout />,
     children: [
       { path: "/", element: <Body /> },
-      { path: "/about", element:<Suspense fallback={<h1>Loading....</h1>}><About /></Suspense> },
-      { path: "/Help", element:<Suspense fallback={<h1>Loading....</h1>}><Help /></Suspense> },
-      { path: "/restaurant/:resId", element: <RestaurantMenu /> },
-      { path: "/cart", element: <Cart /> },
+      { path: "/about", element:<Suspense fallback={<Shimmer/>}><About /></Suspense> },
+      { path: "/Help", element:<Suspense fallback={<Shimmer/>}><Help /></Suspense> },
+      { path: "/restaurant/:resId", element: <Suspense fallback={<Shimmer/>}><RestaurantMenu /></Suspense> },
+      { path: "/cart", element:<Suspense fallback={<Shimmer/>}><Cart /></Suspense>},
+      { path: "/login", element:<Suspense fallback={<Shimmer/>}><Login /></Suspense>},
     ],
   },
 ]);

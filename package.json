@@ -11,12 +11,14 @@
     "license": "ISC",
     "devDependencies": {
         "@babel/core": "^7.20.12",
+        "@parcel/transformer-sass": "^2.8.3",
         "parcel": "^2.8.3",
         "postcss": "^8.4.21",
         "process": "^0.11.10",
         "tailwindcss": "^3.2.6"
     },
     "dependencies": {
+        "@heroicons/react": "^1.0.6",
         "@reduxjs/toolkit": "^1.9.2",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
