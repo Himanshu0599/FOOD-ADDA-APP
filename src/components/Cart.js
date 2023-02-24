@@ -13,7 +13,7 @@ const Cart = () => {
     <div className="container">
       <div className="flex pb-5 justify-between items-center">
         <h1 className="py-2 my-2 text-3xl font-bold ml-12 font-serif">Cart Items</h1>
-        <button className="btn">Clear Cart</button>
+        {/* <button className="btn">Clear Cart</button> */}
       </div>
       <div className="flex">
         <div className="items-list w-4/6 pr-6">
