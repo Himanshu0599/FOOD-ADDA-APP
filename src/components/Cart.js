@@ -1,19 +1,38 @@
-import { useSelector } from "react-redux";
+import { useSelector,useDispatch } from "react-redux";
 import { DELIVERY_CHARGES, IMG_CDN_URL, TAXES } from "../constant";
 import "../css/cart.scss";
 import AddToCart from "./AddToCart";
 import { Link } from "react-router-dom";
 import PriceInfo from "./PriceInfo";
 import useTotalPrice from "../utils/useTotalPrice";
+import { clearItems } from "../utils/cartSlice";
 
 const Cart = () => {
   const cartItems = useSelector((store) => store.cart.items);
   const totalPrice = useTotalPrice(Object.values(cartItems));
+  const dispatch=useDispatch()
+
+  const clearCart = () => {
+    dispatch(clearItems());
+  };
+
   return (
     <div className="container">
       <div className="flex pb-5 justify-between items-center">
         <h1 className="py-2 my-2 text-3xl font-bold ml-12 font-serif">Cart Items</h1>
-        {/* <button className="btn">Clear Cart</button> */}
+        {Object.values(cartItems).length > 0 && (
+        <div className="flex pb-5 justify-between items-center">
+          <button
+            className="bg-red-500 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded"
+            onClick={() => {
+              clearCart();
+            }}
+          >
+            Clear Cart
+          </button>
+        </div>
+      )}
+
       </div>
       <div className="flex">
         <div className="items-list w-4/6 pr-6">
