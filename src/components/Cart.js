@@ -45,7 +45,7 @@ const Cart = () => {
                 <div className="flex justify-between mr-5 items-center">
                   <img
                     className="mr-5"
-                    src={`${IMG_CDN_URL}/${cartItem?.menu?.cloudinaryImageId}`}
+                    src={`${IMG_CDN_URL}/${cartItem?.menu?.imageId}`}
                     alt={cartItem?.menu?.name}
                   />
 

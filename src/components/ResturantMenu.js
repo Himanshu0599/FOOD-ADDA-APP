@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import { IMG_CDN_URL } from "../constant";
-import { MENU_DETAILS } from "../constant";
+import {IMG_CDN_URL,MENU_DETAILS ,MENU_ITEM_TYPE_KEY,RESTAURANT_TYPE_KEY,} from "../constant";
 import { useParams } from "react-router-dom";
 import useRestaurantMenu from '../utils/useRestaurantMenu'
 import { restaurantMenuCardsData } from "../constantData";
@@ -9,11 +8,11 @@ import { addItem } from "../utils/cartSlice";
 import { useDispatch } from "react-redux";
 import SnackBarAlert from './SnackBarAleart'
 const RestaurantMenu = () => {
-  // const { restaurantMenu} = useRestaurantMenu();
+  // const { restaurant} = useRestaurantMenu();
   const { resId } = useParams();
-  const [restaurantMenu, setRestaurauntMenu] = useState(null);
+  const [restaurant, setRestaurant] = useState(null);
   const [showSnackbar, setShowSnackbar] = useState(false);
-
+  const [menuItems, setMenuItems] = useState([]);
   const dispatch = useDispatch();
 
   const addFoodItem = (item) => {
@@ -26,30 +25,61 @@ const RestaurantMenu = () => {
 
   };
 
-  useEffect(() => {
-    setTimeout(() => {
-      getRestaurantMenuInfo(); // call getRestaurantInfo function so it fetch api data and set data in res state variable
-    }, 0);
-    // if CORS is not enable in browser then show the local data only and show the CORS error in console
-    // used array.findIndex and filter the data according to resId and return index of that data
-    let index = restaurantMenuCardsData.findIndex(data => data?.id === String(resId));
-    setRestaurauntMenu(restaurantMenuCardsData[index])
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     getRestaurantMenuInfo(); // call getRestaurantInfo function so it fetch api data and set data in res state variable
+  //   }, 0);
+  //   // if CORS is not enable in browser then show the local data only and show the CORS error in console
+  //   // used array.findIndex and filter the data according to resId and return index of that data
+  //   let index = restaurantMenuCardsData.findIndex(data => data?.id === String(resId));
+  //   setRestaurauntMenu(restaurantMenuCardsData[index])
 
-  }, []);
-
-  async function getRestaurantMenuInfo() {
+  // }, []);
+   useEffect(()=>{
+    getRestaurantInfo()
+   },[])
+  // async function getRestaurantMenuInfo() {
+  //   try {
+  //     const data = await fetch(`${MENU_DETAILS}&menuId=${resId}`);
+  //     const json = await data.json();
+  //     setRestaurauntMenu(json.data);
+  //   }
+  //   catch (error) {
+  //     console.log(error);
+  //   }
+  //   return restaurant
+  // }
+  async function getRestaurantInfo() {
     try {
-      const data = await fetch(`${MENU_DETAILS}&menuId=${resId}`);
-      const json = await data.json();
-      setRestaurauntMenu(json.data);
-    }
-    catch (error) {
+      const response = await fetch(MENU_DETAILS + resId);
+      const json = await response.json();
+
+      // Set restaurant data
+      const restaurantData = json?.data?.cards?.map(x => x.card)?.
+                             find(x => x && x.card['@type'] === RESTAURANT_TYPE_KEY)?.card?.info || null;
+      setRestaurant(restaurantData);
+
+      // Set menu item data
+      const menuItemsData = json?.data?.cards.find(x=> x.groupedCard)?.
+                            groupedCard?.cardGroupMap?.REGULAR?.
+                            cards?.map(x => x.card?.card)?.
+                            filter(x=> x['@type'] == MENU_ITEM_TYPE_KEY)?.
+                            map(x=> x.itemCards).flat().map(x=> x.card?.info) || [];
+      
+      const uniqueMenuItems = [];
+      menuItemsData.forEach((item) => {
+        if (!uniqueMenuItems.find(x => x.id === item.id)) {
+          uniqueMenuItems.push(item);
+        }
+      })
+      setMenuItems(uniqueMenuItems);
+    } catch (error) {
+      setMenuItems([]);
+      setRestaurant(null);
       console.log(error);
     }
-    return restaurantMenu
   }
-
-  return !restaurantMenu ? (
+  return !restaurant ? (
     <Shimmer />
   ) : (
     <div>
@@ -58,19 +88,19 @@ const RestaurantMenu = () => {
         {/* image */}
         <img
           className=" w-72 rounded-md lg:ml-24"
-          src={IMG_CDN_URL + restaurantMenu?.cloudinaryImageId}
+          src={IMG_CDN_URL + restaurant?.cloudinaryImageId}
           key="res1"
           id="res12"
           alt="KFC"
         />
         {/* div for restarant */}
         <div className="flex flex-col gap-2 justify-center lg:mr-24">
-          <h1 className="text-2xl font-medium">{restaurantMenu?.name}</h1>
+          <h1 className="text-2xl font-medium">{restaurant?.name}</h1>
 
-          <h4>{restaurantMenu?.cuisines?.join(" , ")}</h4>
+          <h4>{restaurant?.cuisines?.join(" , ")}</h4>
 
           <div className="flex gap-2">
-            <h4>{restaurantMenu?.area}</h4>
+            <h4>{restaurant?.area}</h4>
           </div>
 
           <div className="flex flex-col gap-5 sm:flex-row sm:gap-8 ">
@@ -78,11 +108,11 @@ const RestaurantMenu = () => {
               <div className="flex gap-2 justify-center">
                 <svg aria-hidden="true" className="w-5 h-5" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
                 <h4 className="text-sm font-medium">
-                  {restaurantMenu?.avgRating} stars
+                  {restaurant?.avgRating} stars
                 </h4>
               </div>
               <h4 className="text-xs font-light">
-                {restaurantMenu?.totalRatingsString}
+                {restaurant?.totalRatingsString}
               </h4>
             </div>
             <div className="bg-white w-px hidden sm:flex text-white"></div>
@@ -94,7 +124,7 @@ const RestaurantMenu = () => {
 
             <div className="flex items-center sm:flex-col gap-2">
               <h4 className="text-sm font-medium">
-                {restaurantMenu?.costForTwoMsg}
+                {restaurant?.costForTwoMsg}
               </h4>
               <h4 className="text-xs font-light">Cost for two</h4>
             </div>
@@ -122,7 +152,7 @@ const RestaurantMenu = () => {
 
       <div className="grid grid-flow-row p-8 lg:grid-cols-4 lg:p-12 lg:px-24">
         <div className="hidden lg:flex flex-col gap-4 mr-6">
-          {restaurantMenu?.menu?.widgets.map((item, index) => (
+          {restaurant?.menu?.widgets.map((item, index) => (
             <h6
               className="font-medium text-sm hover:text-[#FC8019] text-right"
               id={item.name}
@@ -138,7 +168,7 @@ const RestaurantMenu = () => {
 
         {/* menu list */}
         <div className="lg:-ml-72">
-          {Object.values(restaurantMenu?.menu?.items).map((item, index) => (
+          {menuItems.map((item, index) => (
             <div className="" key={item.id}>
               <div className="grid grid-flow-row grid-cols-2 justify-between gap-20 xl:gap-48">
                 <div className="flex flex-col gap-2">
