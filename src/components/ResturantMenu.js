@@ -52,6 +52,7 @@ const RestaurantMenu = () => {
   async function getRestaurantInfo() {
     try {
       const response = await fetch(MENU_DETAILS + resId);
+      console.log("response",response);
       const json = await response.json();
 
       // Set restaurant data
