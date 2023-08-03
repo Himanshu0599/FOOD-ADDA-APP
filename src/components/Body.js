@@ -18,9 +18,9 @@ const Body = () => {
 
   useEffect(() => {
     // if CORS is enable in browser then setTimeout will run and fetch the json data from API and render the UI
-    setTimeout(() => {
-      getRestaurants();
-    }, 200);
+    // setTimeout(() => {
+    //   getRestaurants();
+    // }, 200);
 
     setTimeout(() => {
       // if CORS is not enable in browser then show the local data only and show the CORS error in console
@@ -31,22 +31,22 @@ const Body = () => {
     }, 200);
   }, []);
 
-  async function getRestaurants() {
-    try {
-      const data = await fetch(FETCH_MENU_URL);
-      const json = await data.json();
-      console.log("json",json);
-      //setAllRestaurants(json?.data?.cards[2]?.data?.data?.cards);
-      setAllRestaurants(json?.data?.cards[2]?.card?.card?.gridElements?.infoWithStyle?.restaurants)
-      setFilteredRestaurants(json?.data?.cards[2]?.card?.card?.gridElements?.infoWithStyle?.restaurants)
-      //setFilteredRestaurants(json?.data?.cards[2]?.data?.data?.cards);
-      setCarousel(json?.data?.cards[0]?.card?.card?.gridElements?.infoWithStyle?.info);
+  // async function getRestaurants() {
+  //   try {
+  //     const data = await fetch(FETCH_MENU_URL);
+  //     const json = await data.json();
+  //     console.log("json",json);
+  //     //setAllRestaurants(json?.data?.cards[2]?.data?.data?.cards);
+  //     setAllRestaurants(json?.data?.cards[2]?.card?.card?.gridElements?.infoWithStyle?.restaurants)
+  //     setFilteredRestaurants(json?.data?.cards[2]?.card?.card?.gridElements?.infoWithStyle?.restaurants)
+  //     //setFilteredRestaurants(json?.data?.cards[2]?.data?.data?.cards);
+  //     setCarousel(json?.data?.cards[0]?.card?.card?.gridElements?.infoWithStyle?.info);
       
-    } catch (error) {
-      console.log(error)
-    }
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
 
-  }
+  // }
 
   const handleChange = (e) => setSearchText(e.target.value)
 
@@ -124,7 +124,7 @@ const Body = () => {
       </div>
       <div className="flex flex-wrap space-x-10 m-8">
         {filteredRestaurants.map((restaurant) => {
-          console.log("restaurant",restaurant.data);
+          console.log("restaurant",restaurant);
           return (
             <Link className="card-link" key={restaurant?.data?.id} to={`restaurant/${restaurant?.data?.id}`} >
             <RestaurantCard resData={restaurant.data}/>
