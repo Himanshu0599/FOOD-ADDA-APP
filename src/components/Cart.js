@@ -13,7 +13,7 @@ const Cart = () => {
   const dispatch=useDispatch()
 
   const clearCart = () => {
-    dispatch(clearItems());
+    dispatch(clearItems(null));
   };
 
   return (
@@ -57,7 +57,7 @@ const Cart = () => {
                   </div>
                 </div>
 
-                <AddToCart cartItems={cartItems} menu={cartItem?.menu} />
+                <AddToCart menu={cartItem?.menu} />
               </div>
             );
           })}

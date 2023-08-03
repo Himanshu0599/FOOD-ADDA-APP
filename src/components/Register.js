@@ -1,15 +1,12 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import UserContext from "../utils/UserContext";
-import { useNavigate } from "react-router-dom";
-import { useState } from "react";
 import "../css/forms.scss";
 
-const Login = () => {
+const Register = () => {
   const { user, setUser } = useContext(UserContext);
-  const navigate = useNavigate();
-  const [isLoginError, setIsLoginError] = useState(false);
+  const [isSignupSucces, setIsSignupSuccess] = useState(false);
   return (
     <div className="form-container">
       <div className="login-text">
@@ -17,50 +14,49 @@ const Login = () => {
           Login if you have signed up already
         </h1>
         <h2 className="text-4xl font-bold">OR</h2>
-        <Link to="/register" className="text-2xl">
-          Sign Up Here
+        <Link to="/login" className="text-2xl">
+          Sign In Here
         </Link>
       </div>
       <div className="divider"></div>
+
       <div className="login-form">
-        {isLoginError && (
-          <h4 className="error-text">
-            Incorrect Login, Please Check User Email or Password
+        {isSignupSucces && (
+          <h4 className="success-text">
+            User Registration Successful. Please &nbsp;
+            <Link to="/login">Sign In Here</Link>
           </h4>
         )}
         <Formik
-          initialValues={{ email: "", password: "" }}
+          initialValues={{ email: "", password: "", contactno: "" }}
           validate={(values) => {
             const errors = {};
-            if (!values.email) {
-              errors.email = "This field is required";
-            } else if (
+            if (!values.email) errors.email = "This field is required";
+            else if (
               !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
-            ) {
+            )
               errors.email = "Invalid email address";
-            }
-            if (!values.password) {
-              errors.password = "This field is required";
-            } else if (values.password.length < 8) {
-              errors.password = "Minimum lenght of password should be >= 8";
-            }
+
+            if (!values.password) errors.password = "This field is required";
+            else if (values.password.length < 8)
+              errors.password = "Minimum length of password should be >= 8";
+
+            if (!values.contactno) errors.contactno = "This field is required";
+            else if (!/^[0-9]{10}$/.test(values.contactno))
+              errors.contactno =
+                "Contact no. should be of 10 digits only and a number";
             return errors;
           }}
-          onSubmit={(values, { setSubmitting }) => {
-            setSubmitting(false);
-            if (
-              values?.email !== user?.email ||
-              values?.password !== user?.password
-            ) {
-              setIsLoginError(true);
-              return;
-            }
-            setIsLoginError(false);
+          onSubmit={(values, { setSubmitting, resetForm }) => {
             setUser({
               ...user,
-              isUserLoggedIn: true,
+              email: values.email,
+              password: values.password,
+              contactNo: values.contactno,
             });
-            navigate("/");
+            setIsSignupSuccess(true);
+            resetForm();
+            setSubmitting(false);
           }}
         >
           {({ isSubmitting }) => (
@@ -93,6 +89,20 @@ const Login = () => {
                 />
               </div>
               <div className="form-field">
+                <Field
+                  type="text"
+                  name="contactno"
+                  placeholder="Enter Contact No."
+                  autoComplete="off"
+                  patter="[0-9]+"
+                />
+                <ErrorMessage
+                  className="error-text"
+                  name="contactno"
+                  component="div"
+                />
+              </div>
+              <div className="form-field">
                 <button className="btn" type="submit" disabled={isSubmitting}>
                   Submit
                 </button>
@@ -104,4 +114,4 @@ const Login = () => {
     </div>
   );
 };
-export default Login;
+export default Register;
